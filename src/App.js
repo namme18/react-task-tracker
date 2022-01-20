@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import AddTask from './Components/AddTask'
 import Header from './Components/Header'
 import Tasks from './Components/Tasks'
 import Footer from './Components/Footer'
 import About from './Components/About'
+import TaskDetails from './Components/TaskDetails'
 
 function App() {
   const [tasks, setTasks] = useState([])
@@ -86,17 +87,17 @@ function App() {
     <div className="container">
       <Header onAdd = {()=> setShowAddTask(!showAddTask)} showAdd={showAddTask} />
 
-      
-      <Route path='/' exact render={
-        (props)=>(
-          <>
-            {showAddTask && <AddTask onAdd={ addTask } />}
+      <Routes>
+        <Route path='/' element={
+            <>
+              {showAddTask && <AddTask onAdd={ addTask } />}
 
-            {tasks.length > 0 ? <Tasks tasks={tasks} onDelete={ deleteTask } onToggle={ toggleReminder } /> : ('No tasks to show!')}
-          </>
-        )
-      } />
-      <Route path='/about' component={About} />
+              {tasks.length > 0 ? <Tasks tasks={tasks} onDelete={ deleteTask } onToggle={ toggleReminder } /> : ('No tasks to show!')}
+            </>
+         } />
+        <Route path='/about' element={<About />} />
+        |<Route path='/task/:id' element={<TaskDetails />} />
+      </Routes>
       <Footer />
     </div>
     </Router>
